@@ -1,0 +1,40 @@
+{
+  "employees": [
+    {
+      "id": "11",
+      "first name": "Ahmed",
+      "last name": "Ali",
+      "title": "sales",
+      "mobile number": "01009681239",
+      "email": "ahmed.ali@gmail.com",
+      "salary": "8000"
+    },
+    {
+      "id": "13",
+      "first name": "Amr",
+      "last name": "Haggag",
+      "title": "sales manager",
+      "mobile number": "01500862334",
+      "email": "amr.haggag@gmail.com",
+      "salary": "60000"
+    },
+    {
+      "id": "26",
+      "first name": "Mohamed Haggag",
+      "last name": "",
+      "mobile number": "01119107883",
+      "title": "IT team leader",
+      "email": "mohamed.haggag@gmail.com",
+      "salary": "1200"
+    },
+    {
+      "id": "b201",
+      "first name": "Osama",
+      "last name": "Elsayed",
+      "title": "sales manager",
+      "mobile number": "xx",
+      "email": "murad.ahmed@gmom",
+      "salary": "2000"
+    }
+  ]
+}

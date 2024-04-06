@@ -1,0 +1,847 @@
+{
+	"info": {
+		"_postman_id": "5c5968d6-d42e-4a6a-a837-0b216ca372f3",
+		"name": "XYZ Company API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33376540",
+		"_collection_link": "https://red-resonance-598534.postman.co/workspace/6f729bbd-c2d2-4766-a9e0-ae18e72afd4b/collection/33376540-5c5968d6-d42e-4a6a-a837-0b216ca372f3?action=share&source=collection_link&creator=33376540"
+	},
+	"item": [
+		{
+			"name": "E2E Scenario with Employee Valid Data",
+			"item": [
+				{
+					"name": "Add Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile= pm.response.json()\r",
+									"var employeeID=jsonFile.id\r",
+									"\r",
+									"pm.environment.set(\"employeeID\", employeeID);\r",
+									"\r",
+									"pm.test(\"Check that API response status is 201 or 202\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify response body is not empty\", function () {\r",
+									"    pm.expect(responseBody).to.be.not.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee ID is not blank\", function() {\r",
+									"    pm.expect(employeeID).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee ID contains only numbers\", function() {\r",
+									"    pm.expect(employeeID).to.match(/^\\d+$/);\r",
+									"});\r",
+									"\r",
+									"var firstName=jsonFile[\"first name\"]\r",
+									"var lastName=jsonFile[\"last name\"]\r",
+									"\r",
+									"pm.test(\"Check that employee first name is not blank\", function() {\r",
+									"    pm.expect(firstName).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee last name is not blank\", function() {\r",
+									"    pm.expect(lastName).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"var mobileNumber = jsonFile[\"mobile number\"];\r",
+									"pm.test(\"Check that employee mobile number is not blank\", function() {\r",
+									"    pm.expect(mobileNumber).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee mobile number is 11 digits and contains only numbers\", function() {\r",
+									"    pm.expect(mobileNumber).to.match(/^\\d{11}$/);\r",
+									"});\r",
+									"\r",
+									"var employeeEmail= jsonFile.email\r",
+									"pm.test(\"Check that employee email is not blank\", function() {\r",
+									"    pm.expect(jsonFile.email).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee email is in a valid format\", function() {\r",
+									"    var emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\r",
+									"    pm.expect(jsonFile.email).to.match(emailRegex);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Check that employee salary contains only numbers\", function() {\r",
+									"    var salary = jsonFile.salary;\r",
+									"    pm.expect(salary).to.match(/^\\d+$/);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    \r\n      {\"id\": \"21\",\r\n      \"first name\": \"Mohamed\",\r\n      \"last name\": \"Sherif\",\r\n      \"title\": \"Sales\",\r\n      \"mobile number\": \"01121980076\",\r\n      \"email\": \"mohamed.sherif@gmail.com\",\r\n      \"salary\": \"6500\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n      \"id\": \"27\",\r\n      \"name\": \"Murad Ahmed\",\r\n      \"title\": \"sales manager\",\r\n      \"email\": \"murad.ahmed@gmail.com\",\r\n      \"salary\": \"9000\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  Employee after Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([404, 400]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "E2E Scenario with Employee invalid Data",
+			"item": [
+				{
+					"name": "Add Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile= pm.response.json()\r",
+									"var employeeID=jsonFile.id\r",
+									"\r",
+									"pm.environment.set(\"employeeID\", employeeID);\r",
+									"\r",
+									"pm.test(\"Check that API response status is 201 or 202\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify response body is not empty\", function () {\r",
+									"    pm.expect(responseBody).to.be.not.empty;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Check that employee ID is not blank\", function() {\r",
+									"    pm.expect(employeeID).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee ID contains only numbers\", function() {\r",
+									"    pm.expect(employeeID).to.match(/^\\d+$/);\r",
+									"});\r",
+									"\r",
+									"var firstName=jsonFile[\"first name\"]\r",
+									"var lastName=jsonFile[\"last name\"]\r",
+									"\r",
+									"pm.test(\"Check that employee first name is not blank\", function() {\r",
+									"    pm.expect(firstName).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee last name is not blank\", function() {\r",
+									"    pm.expect(lastName).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"var mobileNumber = jsonFile[\"mobile number\"];\r",
+									"pm.test(\"Check that employee mobile number is not blank\", function() {\r",
+									"    pm.expect(mobileNumber).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee mobile number is 11 digits and contains only numbers\", function() {\r",
+									"    pm.expect(mobileNumber).to.match(/^\\d{11}$/);\r",
+									"});\r",
+									"\r",
+									"var employeeEmail= jsonFile.email\r",
+									"pm.test(\"Check that employee email is not blank\", function() {\r",
+									"    pm.expect(jsonFile.email).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that employee email is in a valid format\", function() {\r",
+									"    var emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\r",
+									"    pm.expect(jsonFile.email).to.match(emailRegex);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Check that employee salary contains only numbers\", function() {\r",
+									"    var salary = jsonFile.salary;\r",
+									"    pm.expect(salary).to.match(/^\\d+$/);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    \r\n      {\"id\": \"xx\",\r\n      \"first name\": \"\",\r\n      \"last name\": \"\",\r\n      \"title\": \"Sales\",\r\n      \"mobile number\": \"011xx980076\",\r\n      \"email\": \"mohamed.sherifgmail.com\",\r\n      \"salary\": \"650xx0\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n      \"id\": \"27\",\r\n      \"name\": \"Murad Ahmed\",\r\n      \"title\": \"sales manager\",\r\n      \"email\": \"murad.ahmed@gmail.com\",\r\n      \"salary\": \"9000\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  Employee after Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check that API response status is 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([404, 400]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees/{{employeeID}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees",
+								"{{employeeID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Validate Employee Data",
+			"item": [
+				{
+					"name": "Get  Employees to validate ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();",
+									"",
+									"// Loop through each employee",
+									"for (var i = 0; i < jsonFile.length; i++) {",
+									"    var employee = jsonFile[i];",
+									"    var employeeID = employee.id;",
+									"",
+									"    // Test case to check that employee ID is not blank",
+									"    pm.test(\"Check that employee ID is not blank\", function() {",
+									"        pm.expect(employeeID).to.not.be.empty;",
+									"    });",
+									"",
+									"    // Test case to check that employee ID contains only numbers",
+									"    pm.test(\"Check that employee ID contains only numbers\", function() {",
+									"        pm.expect(employeeID).to.match(/^\\d+$/);",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/employees",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  Employees to validate first& last name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"\r",
+									"// Loop through each employee in the JSON response\r",
+									"jsonFile.forEach(function(employee, index) {\r",
+									"    var firstName = employee[\"first name\"];\r",
+									"    var lastName = employee[\"last name\"];\r",
+									"    \r",
+									"    // Test case to check that employee first name is not blank\r",
+									"    pm.test(\"Check that employee first name is not blank for Employee \" + (index + 1), function() {\r",
+									"        pm.expect(firstName).to.not.be.empty;\r",
+									"    });\r",
+									"\r",
+									"    // Test case to check that employee last name is not blank\r",
+									"    pm.test(\"Check that employee last name is not blank for Employee \" + (index + 1), function() {\r",
+									"        pm.expect(lastName).to.not.be.empty;\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/employees",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Employee to validate email format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonResponse = pm.response.json();\r",
+									"\r",
+									"// Loop through each employee in the JSON response\r",
+									"jsonResponse.forEach(function(employee, index) {\r",
+									"    var email = employee.email;\r",
+									"\r",
+									"    // Test case to check that employee email is not blank\r",
+									"    pm.test(\"Check that employee email is not blank for Employee \" + (index + 1), function() {\r",
+									"        pm.expect(email).to.not.be.empty;\r",
+									"    });\r",
+									"\r",
+									"    // Test case to check that employee email format is valid\r",
+									"    pm.test(\"Check that employee email format is valid for Employee \" + (index + 1), function() {\r",
+									"        var emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\r",
+									"        pm.expect(email).to.match(emailRegex);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/employees",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employees to validate mobile number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"\r",
+									"// Loop through each employee in the JSON response\r",
+									"jsonFile.forEach(function(employee, index) {\r",
+									"    var mobileNumber = employee[\"mobile number\"];\r",
+									"\r",
+									"    // Test case to check that employee mobile number is not blank\r",
+									"    pm.test(\"Check that employee mobile number is not blank for Employee \" + (index + 1), function() {\r",
+									"        pm.expect(mobileNumber).to.not.be.empty;\r",
+									"    });\r",
+									"\r",
+									"    // Test case to check that employee mobile number has 11 digits\r",
+									"    pm.test(\"Check that employee mobile number has 11 digits for Employee \" + (index + 1), function() {\r",
+									"        pm.expect(mobileNumber.length).to.eql(11);\r",
+									"    });\r",
+									"\r",
+									"    // Test case to check that employee mobile number contains only numbers\r",
+									"    pm.test(\"Check that employee mobile number contains only numbers for Employee \" + (index + 1), function() {\r",
+									"        pm.expect(mobileNumber).to.match(/^\\d+$/);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employees to validate salary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonFile = pm.response.json();\r",
+									"\r",
+									"// Loop through each employee in the JSON response\r",
+									"jsonFile.forEach(function(employee, index) {\r",
+									"    var salary = employee.salary;\r",
+									"\r",
+									"    // Test case to check that employee salary contains only numbers\r",
+									"    pm.test(\"Check that employee salary contains only numbers for Employee \" + (index + 1), function() {\r",
+									"        pm.expect(salary).to.match(/^\\d+$/);\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/employees",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
